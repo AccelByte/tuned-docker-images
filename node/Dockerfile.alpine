@@ -1,0 +1,34 @@
+FROM accelbyte/alpine:3.8
+LABEL maintainer "operations@accelbyte.net"
+
+ENV PATH="/opt/node-v<nodeversion>-linux-x64/bin:$PATH"
+
+
+RUN apk add --update --no-cache curl \
+    make \
+    python \
+    g++ \
+    gcc \
+    gcc-doc \
+    linux-headers; \
+
+    wget https://nodejs.org/dist/v<nodeversion>/node-v<nodeversion>.tar.gz; \
+    mkdir -p /opt; \
+    tar -xvf node-v<nodeversion>.tar.gz -C /opt; \
+    cd /opt/node-v<nodeversion>; \
+    ./configure; \
+    make -j 4; \
+    make install; \
+    make clean; \
+    rm -rf /opt/node*; \
+    rm -rf /node*; \
+
+    apk del make \
+    python \
+    g++ \
+    gcc-doc \
+    linux-headers; \
+
+    node -v
+
+CMD ["node"]
