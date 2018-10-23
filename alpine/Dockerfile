@@ -11,7 +11,6 @@ RUN apk add --update --no-cache curl \
     vim \
     bind-tools \
     tcpdump \
-    telnet \
     netcat-openbsd
 
 RUN mkdir /etc/security; \
