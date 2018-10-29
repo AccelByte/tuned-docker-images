@@ -1,4 +1,5 @@
 FROM accelbyte/debian:stable
+LABEL maintainer "operations@accelbyte.net"
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV JAVA_HOME=/opt/jdk-11.0.1
