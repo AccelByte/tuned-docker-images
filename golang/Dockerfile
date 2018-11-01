@@ -11,8 +11,10 @@ RUN apk add --no-cache --virtual .build-deps bash gcc musl-dev openssl go; \
     ./make.bash; \
     apk del .build-deps; \
     go version; \
+    cd /; \
     wget -O - -q \
-    https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| \
-    sh -s v1.10.2
+	    https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| \
+	    sh -s v1.11.2; \
+	golangci-lint --version;
 
 CMD ["go"]
