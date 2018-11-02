@@ -3,15 +3,36 @@ LABEL maintainer "operations@accelbyte.net"
 
 ENV LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
-    LANGUAGE=en_US.UTF-8
+    LANGUAGE=en_US.UTF-8 \
+    ENV=/etc/profile \
+    HOME=/srv
 
 ADD *.tar.gz .
 
-RUN apk add --update --no-cache curl \
-    vim \
-    bind-tools \
-    tcpdump \
-    netcat-openbsd
+RUN apk add --update --no-cache \
+        ca-certificates \
+        curl \
+        vim \
+        bind-tools \
+        tcpdump \
+        netcat-openbsd \
+        httpry \
+        rhash; \
+    chmod a+s /usr/sbin/httpry; \
+    help=/etc/profile; \
+        echo "cat $HOME/LICENSE                                                               " >> $help; \
+        echo "echo '=========================[ Troubleshooting ]=============================='" >> $help; \
+        echo "echo 'httpry tcp 8080                  Sniff HTTP requests to container         '" >> $help; \
+        echo "echo 'httpry tcp 8080|grep -v <path>   Exclude an HTTP URL path in output       '" >> $help; \
+        echo "echo 'httpry tcp 8080|grep <path>      Only include an HTTP URL path in output  '" >> $help; \
+        echo "echo 'curl -k https://<host>           Test HTTPS URL w/o cert chain validation '" >> $help; \
+        echo "echo 'nc <host>:<port>                 Test TCP connectivity                    '" >> $help; \
+        echo "echo 'ps -or- top                      Show processes running in container      '" >> $help; \
+        echo "echo \"cd $HOME;rhash -c *.sha256        Validate service binary checksum        \"" >> $help; \
+        echo "echo \"$HOME                             Service binary directory                \"" >> $help; \
+        echo "echo \"$HOME/dependencies.txt            Service build dependency report         \"" >> $help; \
+        echo "echo \"$HOME/service.sha256              Build time checksum of service binary   \"" >> $help; \
+        echo "echo '=========================================================================='" >> $help;
 
 RUN mkdir /etc/security; \
     echo "* - nofile 65535" > /etc/security/limits.conf;  \
