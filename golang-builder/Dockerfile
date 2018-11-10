@@ -5,7 +5,9 @@ ENV PATH="/sonar/bin:${PATH}"
 ENV GOBIN="${GOPATH}/bin"
 
 RUN apk --update add --no-cache \
-    ca-certificates bash httpry make git curl rhash unzip libc6-compat openjdk8-jre;
+    ca-certificates bash httpry make git curl python py-pip docker rhash openssh unzip libc6-compat openjdk8-jre; \
+    pip install docker-compose; \
+    pip install awscli;
 
 RUN curl -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip \
         -o sonar-scanner.zip; \
