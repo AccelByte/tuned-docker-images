@@ -1,4 +1,4 @@
-FROM accelbyte/alpine:3.8
+FROM accelbyte/alpine:3.9
 LABEL maintainer "operations@accelbyte.net"
 
 ENV GOPATH="/opt/go/"
@@ -14,7 +14,7 @@ RUN apk add --no-cache --virtual .build-deps bash gcc musl-dev openssl go; \
     cd /; \
     wget -O - -q \
 	    https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| \
-	    sh -s v1.11.2; \
+	    sh -s v1.13.2; \
 	golangci-lint --version;
 
 CMD ["go"]
