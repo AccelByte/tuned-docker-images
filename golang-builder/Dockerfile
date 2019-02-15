@@ -5,7 +5,7 @@ ENV PATH="/sonar/bin:${PATH}"
 ENV GOBIN="${GOPATH}/bin"
 
 RUN apk --update add --no-cache \
-    ca-certificates bash httpry make git curl python py-pip docker rhash openssh unzip libc6-compat openjdk8-jre; \
+    ca-certificates bash httpry make git curl python py-pip docker rhash openssh unzip libc6-compat openjdk8-jre mongodb gcc musl-dev; \
     pip install docker-compose; \
     pip install awscli;
 
