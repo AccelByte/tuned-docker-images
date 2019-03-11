@@ -3,6 +3,9 @@ LABEL maintainer "operations@accelbyte.net"
 
 ENV PATH="/sonar/bin:${PATH}"
 ENV GOBIN="${GOPATH}/bin"
+ENV GOCACHE="${GOPATH}/build-cache"
+
+RUN mkdir GOCACHE
 
 RUN apk --update add --no-cache \
     ca-certificates bash httpry make git curl python py-pip docker rhash openssh unzip libc6-compat openjdk8-jre mongodb gcc musl-dev; \
