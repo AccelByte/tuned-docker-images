@@ -1,0 +1,22 @@
+FROM accelbyte/alpine:3.9
+LABEL maintainer "operations@accelbyte.net"
+
+ENV OPENJDK="OpenJDK8U-jre_x64_linux_hotspot_8u202b08.tar.gz"
+
+RUN curl -L https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u202-b08/${OPENJDK} -o /tmp/${OPENJDK}
+
+RUN tar -xf /tmp/${OPENJDK} -C /opt/
+
+RUN \
+  curl -L https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub \
+  -o /etc/apk/keys/sgerrand.rsa.pub && \
+  curl -L https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.29-r0/glibc-2.29-r0.apk \
+  -o /tmp/glibc-2.29-r0.apk && \
+  apk add /tmp/glibc-2.29-r0.apk && \
+  rm -rf /tmp/*
+
+ENV PATH "/opt/jdk8u202-b08-jre/bin:$PATH"
+ENV JAVA_HOME "/opt/jdk8u202-b08-jre"
+
+RUN java -version
+ENTRYPOINT ["java"]

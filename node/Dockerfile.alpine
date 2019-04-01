@@ -1,4 +1,4 @@
-FROM accelbyte/alpine:3.8
+FROM accelbyte/alpine:3.9
 LABEL maintainer "operations@accelbyte.net"
 
 ENV PATH="/opt/node-v<nodeversion>-linux-x64/bin:$PATH"
