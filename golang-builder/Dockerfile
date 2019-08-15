@@ -8,7 +8,7 @@ ENV GOCACHE="${GOPATH}/build-cache"
 RUN mkdir GOCACHE
 
 RUN apk --update add --no-cache \
-    ca-certificates bash httpry make git curl python py-pip docker rhash openssh unzip libc6-compat openjdk8-jre mongodb gcc musl-dev; \
+    ca-certificates bash httpry make git curl python py-pip docker rhash openssh unzip libc6-compat openjdk8-jre mongodb gcc musl-dev python-dev libffi-dev openssl-dev libc-dev; \
     pip install docker-compose; \
     pip install awscli;
 
