@@ -1,0 +1,22 @@
+# Copyright (c) 2020 AccelByte Inc. All Rights Reserved.
+# This is licensed software from AccelByte Inc, for limitations
+# and restrictions contact your company contract manager.
+
+# Set application manifest using rcedit https://github.com/electron/rcedit, and
+# Codesign using osslsigncode https://sourceforge.net/projects/osslsigncode/
+#
+# Available bins:
+# - `docker run {image-name} /usr/local/bin/windows/rcedit-x86.exe ...`
+# - `docker run {image-name} openssl`
+# - `docker run {image-name} osslsigncode`
+
+FROM scottyhardy/docker-wine
+
+RUN mkdir -p /usr/local/bin/windows \
+  && wget -qO /usr/local/bin/windows/rcedit-x86.exe https://github.com/electron/rcedit/releases/download/v1.1.1/rcedit-x86.exe \
+  && apt-get update \
+  && apt-get upgrade -y \
+  && apt-get install osslsigncode -y
+
+ENV WINEARCH win32
+ENV WINEDEBUG -all,err+all
