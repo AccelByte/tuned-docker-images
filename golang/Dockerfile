@@ -5,16 +5,16 @@ ENV GOPATH="/opt/go/"
 ENV PATH="/usr/local/go/bin:$PATH:$GOPATH/bin"
 
 RUN apk add --no-cache --virtual .build-deps bash gcc musl-dev openssl go; \
-    wget -O go.tar.gz https://dl.google.com/go/go<goversion>.src.tar.gz; \
+    curl -L -o go.tar.gz https://dl.google.com/go/go1.13.src.tar.gz; \
     tar -xzvf go.tar.gz -C /usr/local; \
     cd /usr/local/go/src/; \
     ./make.bash; \
     apk del .build-deps; \
     go version; \
     cd /; \
-    wget -O - -q \
+    curl -L -s \
 	    https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| \
-	    sh -s v<linterversion>; \
+	    sh -s v1.20.0; \
 	golangci-lint --version;
 
 CMD ["go"]
