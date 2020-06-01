@@ -1,4 +1,4 @@
-FROM accelbyte/alpine:3.9
+FROM accelbyte/alpine:<alpine_version>
 LABEL maintainer "operations@accelbyte.net"
 
 ENV OPENJDK="OpenJDK11U-jre_x64_linux_openj9_11.0.2_9_openj9-0.12.1_openj9-0.12.1.tar.gz"
