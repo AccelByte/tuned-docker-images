@@ -10,6 +10,8 @@ RUN apk add --update --no-cache curl \
     g++ \
     gcc \
     gcc-doc \
+    yarn \
+    git \
     linux-headers; \
 
     wget https://nodejs.org/dist/v<nodeversion>/node-v<nodeversion>.tar.gz; \
