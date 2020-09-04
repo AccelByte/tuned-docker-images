@@ -8,23 +8,48 @@ ENV GOCACHE="${GOPATH}/build-cache"
 RUN mkdir GOCACHE
 
 RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.9/main' >> /etc/apk/repositories; \
-    echo 'http://dl-cdn.alpinelinux.org/alpine/v3.9/community' >> /etc/apk/repositories; \
-    apk --update add --no-cache mongodb yaml-cpp=0.6.2-r2 ca-certificates bash httpry make git curl python py-pip docker \
-    rhash openssh unzip libc6-compat openjdk8-jre gcc musl-dev python-dev libffi-dev openssl-dev libc-dev; \
-    pip install docker-compose; \
-    pip install awscli;
+	echo 'http://dl-cdn.alpinelinux.org/alpine/v3.9/community' >> /etc/apk/repositories; \
+	apk update ;\
+	apk add --no-cache \
+		mongodb \
+		yaml-cpp=0.6.2-r2
+
+RUN apk update ; \
+	apk add --update --no-cache \
+		ca-certificates \
+		bash \
+		httpry \
+		make \
+		git \
+		curl \
+		docker \
+		rhash \
+		openssh \
+		unzip \
+		libc6-compat \
+		openjdk8-jre \
+		gcc \
+		musl-dev \
+		python3 \
+		py-pip \
+		python3-dev \
+		libffi-dev \
+		openssl-dev \
+		libc-dev ; \
+	pip install docker-compose; \
+	pip install awscli;
 
 RUN curl -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip \
-        -o sonar-scanner.zip; \
-    unzip -q sonar-scanner.zip; \
-    rm sonar-scanner.zip; \
-    mv sonar-scanner-3.2.0.1227-linux sonar; \
-    sed -i 's/use_embedded_jre=true/use_embedded_jre=false/g' sonar/bin/sonar-scanner;
+		-o sonar-scanner.zip; \
+	unzip -q sonar-scanner.zip; \
+	rm sonar-scanner.zip; \
+	mv sonar-scanner-3.2.0.1227-linux sonar; \
+	sed -i 's/use_embedded_jre=true/use_embedded_jre=false/g' sonar/bin/sonar-scanner;
 
 RUN go get -v -u github.com/AccelByte/abgocyclo; \
 	go get -v -u github.com/golang/dep/cmd/dep; \
 	go get -v -u github.com/derekparker/delve/cmd/dlv; \
-    go get -v github.com/axw/gocov/...; \
+	go get -v github.com/axw/gocov/...; \
 	go get -v github.com/AlekSi/gocov-xml; \
 	go get -v -u github.com/jstemmer/go-junit-report;
 
