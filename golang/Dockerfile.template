@@ -1,11 +1,12 @@
 FROM accelbyte/alpine:<base_image_version>
 LABEL maintainer "operations@accelbyte.net"
 
-ENV GOPATH="/opt/go/"
-ENV PATH="/usr/local/go/bin:$PATH:$GOPATH/bin"
+ENV GOPATH="/opt/go/" \
+	PATH="/usr/local/go/bin:${PATH}:${GOPATH}/bin"
 
-RUN apk add --upgrade --no-cache --virtual .build-deps bash gcc musl-dev openssl go; \
-    curl -L -o go.tar.gz https://dl.google.com/go/go1.13.src.tar.gz; \
+RUN apk update; \
+	apk add --upgrade --no-cache --virtual .build-deps bash gcc musl-dev openssl go; \
+    curl -L -o go.tar.gz https://dl.google.com/go/go<goversion>.src.tar.gz; \
     tar -xzvf go.tar.gz -C /usr/local; \
     cd /usr/local/go/src/; \
     ./make.bash; \
@@ -14,7 +15,8 @@ RUN apk add --upgrade --no-cache --virtual .build-deps bash gcc musl-dev openssl
     cd /; \
     curl -L -s \
         https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| \
-        sh -s v1.20.0; \
+        sh -s v<linterversion>; \
 	golangci-lint --version;
 
 CMD ["go"]
+
