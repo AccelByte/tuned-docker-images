@@ -1,18 +1,18 @@
 #!/bin/bash
-if [[ $# -eq 0 ]]; then
-  echo "This script needs version as argument"
-  echo "example : ./build.sh 3.8"
-  exit -1
-fi
+base_image_version='3.12'
 
-readonly alpine_baseurl=http://dl-cdn.alpinelinux.org/alpine/
-readonly arch_url=${alpine_baseurl}v${1}/releases/x86_64/
-curl -OL ${arch_url}latest-releases.yaml
-readonly filename=`cat latest-releases.yaml | grep file | grep minirootfs | awk '{print $2}'`
-curl -OL ${arch_url}${filename}
+while getopts b:h option
+do
+  case "${option}"
+    in
+    b) base_image_version=${OPTARG};;
+    h) echo "script usage: $(basename $0) [-h] [-b base-image-version-default-is-3.12]" >&2 ; exit 1 ;;
+    esac
+done
 
-docker build -t accelbyte/alpine:${1} .
-docker tag accelbyte/alpine:${1} accelbyte/alpine:latest
+sed -e "s/<base_image_version>/${base_image_version}/g" \
+Dockerfile.template > Dockerfile
 
-rm -rf *.yaml*
-rm -rf *.tar.gz*
+docker build -t accelbyte/alpine:${base_image_version} .
+docker tag accelbyte/alpine:${base_image_version} accelbyte/alpine:latest
+
