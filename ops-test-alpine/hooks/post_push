@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+BUILD_VERSION=$(echo ${DOCKER_TAG} | cut -d "-" -f1)
+BUILD_ARCH=$(echo ${DOCKER_TAG} | cut -d "-" -f2)
+
+IMAGE=${DOCKER_REPO}:${BUILD_VERSION}
+AMD64_IMAGE=${DOCKER_REPO}:${BUILD_VERSION}-amd64
+ARM64_IMAGE=${DOCKER_REPO}:${BUILD_VERSION}-arm64
+
+function _docker() {
+  DOCKER_CLI_EXPERIMENTAL=enabled docker $@
+}
+
+echo "Checking ${AMD64_IMAGE} manifest"
+_docker manifest inspect ${AMD64_IMAGE} > /dev/null
+if [[ $? ]]; then AMD64_IMAGE=""; fi
+
+echo "Checking ${ARM64_IMAGE} manifest"
+_docker manifest inspect ${ARM64_IMAGE} > /dev/null
+if [[ $? ]]; then ARM64_IMAGE=""; fi
+
+
+echo "Creating multiarch manifest"
+_docker manifest create ${IMAGE} ${AMD64_IMAGE} ${ARM64_IMAGE}
+if [[ -n "${ARM64_IMAGE}" ]]; then
+  _docker manifest annotate ${IMAGE} ${ARM64_IMAGE} --os linux --arch arm
+fi
+
+_docker manifest push ${IMAGE}
