@@ -13,11 +13,11 @@ function _docker() {
 
 echo "Checking ${AMD64_IMAGE} manifest"
 _docker manifest inspect ${AMD64_IMAGE} > /dev/null
-if [[ $? ]]; then AMD64_IMAGE=""; fi
+if [[ $? -ne 0 ]]; then AMD64_IMAGE=""; fi
 
 echo "Checking ${ARM64_IMAGE} manifest"
 _docker manifest inspect ${ARM64_IMAGE} > /dev/null
-if [[ $? ]]; then ARM64_IMAGE=""; fi
+if [[ $? -ne 0 ]]; then ARM64_IMAGE=""; fi
 
 
 echo "Creating multiarch manifest"
