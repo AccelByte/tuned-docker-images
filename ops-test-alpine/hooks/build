@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
 BUILD_VERSION=$(echo ${DOCKER_TAG} | cut -d "-" -f1)
+BUILD_ARCH=$(echo ${DOCKER_TAG} | cut -d "-" -f2)
 
 if [[ ${DOCKER_TAG} == "latest" ]]; then
-  docker build . --build-arg BUILD_VERSION=${DOCKER_TAG} -t ${IMAGE_NAME} -f ${DOCKERFILE_PATH}
+  docker build . --build-arg BUILD_VERSION=${DOCKER_TAG} -t ${IMAGE_NAME} -f Dockerfile.${BUILD_ARCH}
 else
-  docker build . --build-arg BUILD_VERSION=${BUILD_VERSION} -t ${IMAGE_NAME} -f ${DOCKERFILE_PATH}
+  docker build . --build-arg BUILD_VERSION=${BUILD_VERSION} -t ${IMAGE_NAME} -f Dockerfile.${BUILD_ARCH}
 fi
