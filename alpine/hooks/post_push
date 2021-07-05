@@ -24,7 +24,7 @@ if [[ $? -ne 0 ]]; then ARM64_IMAGE=""; fi
 echo "Creating multiarch manifest"
 _docker manifest create ${IMAGE} ${AMD64_IMAGE} ${ARM64_IMAGE}
 if [[ -n "${ARM64_IMAGE}" ]]; then
-  _docker manifest annotate ${IMAGE} ${ARM64_IMAGE} --os linux --arch arm
+  _docker manifest annotate ${IMAGE} ${ARM64_IMAGE} --os linux --arch arm64v8
 fi
 
 _docker manifest push ${IMAGE}
