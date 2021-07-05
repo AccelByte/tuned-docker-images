@@ -4,6 +4,6 @@ COUNT=$(echo ${DOCKER_TAG} | tr '-' ' ' | wc -w)
 BUILD_ARCH=$(echo ${DOCKER_TAG} | rev | cut -d- -f1 | rev)
 BUILD_VERSION=$(echo ${DOCKER_TAG} | cut -d- -f1-$((COUNT - 1)))
 
-if [[ ${BUILD_ARCH} == "arm64" ]]; then
+if [[ ${BUILD_ARCH} == "arm64v8" ]]; then
   docker run --rm --privileged multiarch/qemu-user-static:register --reset
 fi
