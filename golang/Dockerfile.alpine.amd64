@@ -1,0 +1,14 @@
+ARG BUILD_VERSION
+ARG OS_VERSION
+
+FROM golang:${BUILD_VERSION}-alpine as go
+
+FROM golangci/golangci-lint:latest-alpine as lint
+
+FROM accelbyte/ops-test-alpine:latest
+LABEL maintainer "operations@accelbyte.net"
+
+COPY --from=go /usr/local/go/ /usr/local/go/
+COPY --from=lint /usr/bin/golangci-lint /usr/bin/golangci-lint
+ENV PATH="/usr/local/go/bin:${PATH}"
+ENTRYPOINT ["go"]

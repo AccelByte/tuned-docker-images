@@ -3,9 +3,16 @@
 COUNT=$(echo ${DOCKER_TAG} | tr '-' ' ' | wc -w)
 BUILD_ARCH=$(echo ${DOCKER_TAG} | rev | cut -d- -f1 | rev)
 BUILD_VERSION=$(echo ${DOCKER_TAG} | cut -d- -f1-$((COUNT - 1)))
+DOCKERFILE=$(basename -- ${DOCKERFILE_PATH})
 
 if [[ ${DOCKER_TAG} == "latest" ]]; then
-  docker build . --build-arg BUILD_VERSION=${DOCKER_TAG} -t ${IMAGE_NAME} -f Dockerfile.${BUILD_ARCH}
+  docker build . \
+    --build-arg BUILD_VERSION=${DOCKER_TAG} \
+    -t ${IMAGE_NAME} \
+    -f ${DOCKERFILE}
 else
-  docker build . --build-arg BUILD_VERSION=${BUILD_VERSION} -t ${IMAGE_NAME} -f Dockerfile.${BUILD_ARCH}
+  docker build . \
+    --build-arg BUILD_VERSION=${BUILD_VERSION} \
+    -t ${IMAGE_NAME} \
+    -f ${DOCKERFILE}
 fi
