@@ -1,9 +1,9 @@
 ARG GO_VERSION
 FROM multiarch/qemu-user-static:x86_64-aarch64 as qemu
 
-FROM golang:${GO_VERSION} as go
+FROM arm64v8/golang:${GO_VERSION} as go
 
-FROM golangci/golangci-lint:latest as lint
+FROM --platform=arm64 golangci/golangci-lint:latest as lint
 
 FROM accelbyte/debian:latest-arm64v8
 LABEL maintainer "operations@accelbyte.net"
