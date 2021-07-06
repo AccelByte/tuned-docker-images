@@ -4,6 +4,10 @@ COUNT=$(echo ${DOCKER_TAG} | tr '-' ' ' | wc -w)
 BUILD_VERSION=$(echo ${DOCKER_TAG} | cut -d- -f1-$((COUNT - 1)))
 DOCKERFILE=$(basename -- ${DOCKERFILE_PATH})
 
+if [[ ${BUILD_VERSION} == "latest" ]]; then
+  BUILD_VERSION="stable"
+fi
+
 docker build . \
   --build-arg BUILD_VERSION=${BUILD_VERSION} \
   -t ${IMAGE_NAME} \
