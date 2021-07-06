@@ -1,10 +1,10 @@
 ARG GO_VERSION
 
-FROM golang:${GO_VERSION}-alpine as go
+FROM golang:${GO_VERSION} as go
 
-FROM golangci/golangci-lint:latest-alpine as lint
+FROM golangci/golangci-lint:latest as lint
 
-FROM accelbyte/alpine:latest
+FROM accelbyte/debian:latest
 LABEL maintainer "operations@accelbyte.net"
 
 COPY --from=go /usr/local/go/ /usr/local/go/
