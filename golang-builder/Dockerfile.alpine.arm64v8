@@ -48,6 +48,11 @@ RUN curl -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sona
     mv sonar-scanner /opt/sonar; \
     sed -i "s/use_embedded_jre=true/use_embedded_jre=false/g" /opt/sonar/bin/sonar-scanner;
 
+RUN curl -L https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-armel-v0.6.1.tar.gz --output dockerize.tar.gz; \
+    tar -xvf dockerize.tar.gz; \
+    mv dockerize /usr/bin/; \
+    rm -rf dockerize.tar.gz
+
 RUN go get -v -u github.com/AccelByte/abgocyclo; \
     go get -v -u github.com/derekparker/delve/cmd/dlv; \
     go get -v -u github.com/derekparker/delve/cmd/dlv; \
