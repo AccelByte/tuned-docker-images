@@ -37,7 +37,8 @@ RUN apk add --update --no-cache \
       libc-dev \
       jq \
       yarn \
-      docker-compose; \
+      docker-compose \
+      postgresql-client; \
       pip3 install awscli;
 
 RUN curl -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472.zip \
