@@ -1,0 +1,13 @@
+ARG NODE_VERSION
+FROM multiarch/qemu-user-static:x86_64-aarch64 as qemu
+
+FROM arm64v8/node:${NODE_VERSION}-alpine as node
+
+FROM accelbyte/alpine:latest-arm64v8
+LABEL maintainer "operations@accelbyte.net"
+RUN apk add --no-cache libstdc++
+COPY --from=node /opt /opt
+COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
+COPY --from=node /usr/local/bin /usr/local/bin
+
+ENTRYPOINT ["docker-entrypoint.sh"]

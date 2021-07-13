@@ -1,9 +1,0 @@
-FROM accelbyte/debian:<base_image_version>
-LABEL maintainer "operations@accelbyte.net"
-
-ENV PATH="/opt/node-v<nodeversion>-linux-x64/bin:$PATH"
-
-RUN curl -O https://nodejs.org/dist/v<nodeversion>/node-v<nodeversion>-linux-x64.tar.gz; \
-    tar -xvf node-v<nodeversion>-linux-x64.tar.gz -C /opt
-
-CMD ["node"]

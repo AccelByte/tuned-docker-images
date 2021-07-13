@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+COUNT=$(echo ${DOCKER_TAG} | tr '-' ' ' | wc -w)
+BUILD_ARCH=$(echo ${DOCKER_TAG} | rev | cut -d- -f1 | rev)
+
+if [[ ${DOCKER_TAG} == "latest" ]]; then
+  echo "Please don't use this docker tag"
+  exit 1
+fi
+
+if [[ ${BUILD_ARCH} == "arm64v8" ]]; then
+  docker run --rm --privileged multiarch/qemu-user-static:register --reset
+fi
