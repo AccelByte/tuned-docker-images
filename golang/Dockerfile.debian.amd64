@@ -6,7 +6,7 @@ FROM golangci/golangci-lint:latest as lint
 
 FROM accelbyte/debian:latest
 LABEL maintainer "operations@accelbyte.net"
-ENV GOPATH="/usr/local/go/
+ENV GOPATH="/usr/local/go/"
 COPY --from=go /usr/local/go/ /usr/local/go/
 COPY --from=lint /usr/bin/golangci-lint /usr/bin/golangci-lint
 ENV PATH="/usr/local/go/bin:${PATH}"
