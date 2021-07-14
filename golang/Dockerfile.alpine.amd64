@@ -9,5 +9,5 @@ LABEL maintainer "operations@accelbyte.net"
 ENV GOPATH="/opt/go"
 COPY --from=go /usr/local/go/ /usr/local/go/
 COPY --from=lint /usr/bin/golangci-lint /usr/bin/golangci-lint
-ENV PATH="/opt/go/bin:${PATH}"
+ENV PATH="/usr/local/go/bin:/opt/go/bin:${PATH}"
 ENTRYPOINT ["go"]
