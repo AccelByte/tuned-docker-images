@@ -2,7 +2,7 @@ ARG GO_VERSION
 
 FROM golang:${GO_VERSION} as go
 
-FROM golangci/golangci-lint:latest as lint
+FROM golangci/golangci-lint:v1.33 as lint
 
 FROM accelbyte/debian:latest
 LABEL maintainer "operations@accelbyte.net"

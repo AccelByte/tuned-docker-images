@@ -2,7 +2,7 @@ ARG GO_VERSION
 
 FROM golang:${GO_VERSION}-alpine as go
 
-FROM golangci/golangci-lint:latest-alpine as lint
+FROM golangci/golangci-lint:v1.33-alpine as lint
 
 FROM accelbyte/alpine:latest
 LABEL maintainer "operations@accelbyte.net"

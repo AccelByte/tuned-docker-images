@@ -3,7 +3,7 @@ FROM multiarch/qemu-user-static:x86_64-aarch64 as qemu
 
 FROM arm64v8/golang:${GO_VERSION}-alpine as go
 
-FROM --platform=arm64 golangci/golangci-lint:latest-alpine  as lint
+FROM --platform=arm64 golangci/golangci-lint:v1.33-alpine  as lint
 
 FROM accelbyte/alpine:latest-arm64v8
 LABEL maintainer "operations@accelbyte.net"
