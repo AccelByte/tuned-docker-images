@@ -11,5 +11,5 @@ COPY --from=qemu /usr/bin/qemu-aarch64-static /usr/bin
 ENV GOPATH="/opt/go"
 COPY --from=go /usr/local/go/ /usr/local/go/
 COPY --from=lint /usr/bin/golangci-lint /usr/bin/golangci-lint
-ENV PATH="/usr/local/go/bin:${PATH}"
+ENV PATH="/opt/go/bin:${PATH}"
 ENTRYPOINT ["go"]
