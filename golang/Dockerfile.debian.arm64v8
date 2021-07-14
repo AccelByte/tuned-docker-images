@@ -8,7 +8,7 @@ FROM --platform=arm64 golangci/golangci-lint:v1.33 as lint
 FROM accelbyte/debian:latest-arm64v8
 LABEL maintainer "operations@accelbyte.net"
 COPY --from=qemu /usr/bin/qemu-aarch64-static /usr/bin
-ENV GOPATH="/usr/local/go/"
+ENV GOPATH="/opt/go"
 COPY --from=go /usr/local/go/ /usr/local/go/
 COPY --from=lint /usr/bin/golangci-lint /usr/bin/golangci-lint
 ENV PATH="/usr/local/go/bin:${PATH}"
