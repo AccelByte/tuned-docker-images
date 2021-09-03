@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+GO_VERSION=$(echo ${DOCKER_TAG} | cut -d- -f1)
+DOCKERFILE=$(basename -- ${DOCKERFILE_PATH})
+
+docker build . \
+  --build-arg GO_VERSION=${GO_VERSION} \
+  -t ${IMAGE_NAME} \
+  -f ${DOCKERFILE}

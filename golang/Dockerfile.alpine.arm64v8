@@ -1,0 +1,15 @@
+ARG GO_VERSION
+FROM multiarch/qemu-user-static:x86_64-aarch64 as qemu
+
+FROM arm64v8/golang:${GO_VERSION}-alpine as go
+
+FROM --platform=arm64 golangci/golangci-lint:v1.33-alpine  as lint
+
+FROM accelbyte/alpine:latest-arm64v8
+LABEL maintainer "operations@accelbyte.net"
+COPY --from=qemu /usr/bin/qemu-aarch64-static /usr/bin
+ENV GOPATH="/opt/go"
+COPY --from=go /usr/local/go/ /usr/local/go/
+COPY --from=lint /usr/bin/golangci-lint /usr/bin/golangci-lint
+ENV PATH="/usr/local/go/bin:/opt/go/bin:${PATH}"
+ENTRYPOINT ["go"]

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+COUNT=$(echo ${DOCKER_TAG} | tr '-' ' ' | wc -w)
+BUILD_VERSION=$(echo ${DOCKER_TAG} | cut -d- -f1-$((COUNT - 1)))
+DOCKERFILE=$(basename -- ${DOCKERFILE_PATH})
+
+docker build . \
+  --build-arg BUILD_VERSION=${BUILD_VERSION} \
+  -t ${IMAGE_NAME} \
+  -f ${DOCKERFILE}

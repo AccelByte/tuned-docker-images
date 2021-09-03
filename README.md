@@ -1,7 +1,5 @@
-# tuned-docker-images
+# AccelByte Base Images
 
-Docker images with some tuned parameters and some tools installed. People can use this image directly in docker hub https://hub.docker.com/r/accelbyte.
-
-## How to build
-
-You can build by executing build.sh script inside the image directory
+In this repo contains some dockerfiles that is used for AccelByte's product base image.
+These docker images has pre-installed components that will be used for building the apps and Debugging/Troubleshooting purpose.
+Available in Docker Hub: https://hub.docker.com/r/accelbyte.
