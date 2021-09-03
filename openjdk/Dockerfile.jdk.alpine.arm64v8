@@ -11,14 +11,23 @@ ENV LC_ALL=en_US.UTF-8 \
     HOME=/srv
 
 RUN apk add --update --no-cache \
+      bash \
+      bind-tools \
       ca-certificates \
       curl \
-      vim \
-      bind-tools \
-      tcpdump \
-      netcat-openbsd \
+      git \
+      gnupg \
       httpry \
-      rhash; \
+      java-cacerts \
+      netcat-openbsd \
+      python-dev \
+      py-pip \
+      rhash \
+      tcpdump \
+      vim \
+      yarn; \
+    pip install awscli --upgrade --user; \
+    ln -s /srv/.local/bin/aws /bin/aws; \
     chmod a+s /usr/sbin/httpry; \
     help=/etc/profile; \
     echo "echo '=========================[ Troubleshooting ]=============================='" >> $help; \

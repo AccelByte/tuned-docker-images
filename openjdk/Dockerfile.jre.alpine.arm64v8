@@ -28,6 +28,8 @@ RUN apk add --update --no-cache \
     echo "echo 'curl -k https://<host>           Test HTTPS URL w/o cert chain validation '" >> $help; \
     echo "echo 'nc <host>:<port>                 Test TCP connectivity                    '" >> $help; \
     echo "echo 'ps -or- top                      Show processes running in container      '" >> $help; \
-    echo "echo '=========================================================================='" >> $help;
+    echo "echo '=========================================================================='" >> $help; \
+    echo "networkaddress.cache.ttl=0" >> $JAVA_HOME/lib/security/java.security; \
+    sed -i "s|securerandom.source=.*|securerandom.source=file:/dev/./urandom|g" $JAVA_HOME/lib/security/java.security;
 
 ENTRYPOINT ["java"]
