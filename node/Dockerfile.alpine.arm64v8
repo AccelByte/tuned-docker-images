@@ -5,9 +5,10 @@ FROM arm64v8/node:${NODE_VERSION}-alpine as node
 
 FROM accelbyte/alpine:latest-arm64v8
 LABEL maintainer "operations@accelbyte.net"
-RUN apk add --no-cache libstdc++
 COPY --from=node /opt /opt
 COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
 COPY --from=node /usr/local/bin /usr/local/bin
+RUN apk add --no-cache bash dos2unix gcompat git libc6-compat libgcc libstdc++ musl musl-utils yarn openssh; \
+    bash && npm install -g forever;
 
 ENTRYPOINT ["docker-entrypoint.sh"]
