@@ -9,6 +9,7 @@ COPY --from=node /opt /opt
 COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
 COPY --from=node /usr/local/bin /usr/local/bin
 RUN apk add --no-cache bash dos2unix gcompat git libc6-compat libgcc libstdc++ musl musl-utils yarn openssh; \
-    bash && npm install -g forever;
+    bash && npm config set unsafe-perm true && \
+    npm install -g forever && npm config set unsafe-perm false;
 
 ENTRYPOINT ["docker-entrypoint.sh"]
