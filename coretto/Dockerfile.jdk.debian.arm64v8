@@ -1,0 +1,47 @@
+FROM multiarch/qemu-user-static:x86_64-aarch64 as qemu
+
+#The specified digest belongs to the arm64 version
+FROM debian:buster-slim@sha256:9f6e6f1f5a4665a552f46028808b28ab19788d28db470de6822febf710f47914
+COPY --from=qemu /usr/bin/qemu-aarch64-static /usr/bin
+
+ENV LANG=C.UTF-8 \
+    ENV=/etc/profile \
+    HOME=/srv \
+    JAVA_HOME=/usr/lib/jvm/java-1.8.0-amazon-corretto
+ARG JAVA_VERSION
+# In addition to installing the Amazon corretto, we also install
+# fontconfig. The folks who manage the docker hub's
+# official image library have found that font management
+# is a common usecase, and painpoint, and have
+# recommended that Java images include font support.
+#
+# See:
+#  https://github.com/docker-library/official-images/blob/master/test/tests/java-uimanager-font/container.java
+
+RUN set -eux \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
+        bash curl ca-certificates ca-certificates-java dnsutils fontconfig git gnupg httpry java-common netcat python-dev python-pip rhash software-properties-common yarn \
+    && curl -fL https://apt.corretto.aws/corretto.key | apt-key add - \
+    && add-apt-repository 'deb https://apt.corretto.aws stable main' \
+    && mkdir -p /usr/share/man/man1 || true \
+    && apt-get update \
+    && apt-get install -y java-1.8.0-amazon-corretto-jdk=1:$JAVA_VERSION \
+    && pip install awscli --no-cache-dir --upgrade --user \
+    && ln -s /srv/.local/bin/aws /bin/aws \
+    && (find /usr/lib/jvm/java-1.8.0-amazon-corretto -name src.zip -delete || true) \
+    && (find /usr/lib/jvm/java-1.11.0-openjdk-arm64 -delete || true) \
+    && (find /usr/lib/jvm/java-11-openjdk-arm64 -delete || true) \    
+    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+    curl python-dev gnupg software-properties-common \
+    && help=/etc/profile; \
+    echo "echo '=========================[ Troubleshooting ]=============================='" >> $help; \
+    echo "echo 'httpry tcp 8080                  Sniff HTTP requests to container         '" >> $help; \
+    echo "echo 'httpry tcp 8080|grep -v <path>   Exclude an HTTP URL path in output       '" >> $help; \
+    echo "echo 'httpry tcp 8080|grep <path>      Only include an HTTP URL path in output  '" >> $help; \
+    echo "echo 'curl -k https://<host>           Test HTTPS URL w/o cert chain validation '" >> $help; \
+    echo "echo 'nc <host>:<port>                 Test TCP connectivity                    '" >> $help; \
+    echo "echo 'ps -or- top                      Show processes running in container      '" >> $help; \
+    echo "echo '=========================================================================='" >> $help;
+
+ENTRYPOINT ["java"]
