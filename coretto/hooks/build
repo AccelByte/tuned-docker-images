@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+JAVA_VERSION=$(echo ${DOCKER_TAG} | cut -d- -f1)
+DOCKERFILE=$(basename -- ${DOCKERFILE_PATH})
+
+docker build . \
+  --build-arg JAVA_VERSION=${JAVA_VERSION} \
+  -t ${IMAGE_NAME} \
+  -f ${DOCKERFILE}
